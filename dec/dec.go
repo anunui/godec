@@ -132,17 +132,6 @@ func (z *Dec) Set(x *Dec) *Dec {
 	return z
 }
 
-// Move sets z to the value of x, and sets x to zero, unless z == x.
-// It is intended for fast assignment from temporary variables without copying
-// the underlying array.
-func (z *Dec) move(x *Dec) *Dec {
-	if z != x {
-		*z = *x
-		*x = Dec{}
-	}
-	return z
-}
-
 // Sign returns:
 //
 //	-1 if x <  0
@@ -232,7 +221,7 @@ func (z *Dec) Quo(x, y *Dec, scaler Scaler, rounder Rounder) *Dec {
 	if zzz == nil {
 		return nil
 	}
-	return z.move(zzz)
+	return z.Set(zzz)
 }
 
 // QuoExact(x, y) is a shorthand for Quo(x, y, ScaleQuoExact, RoundExact).
